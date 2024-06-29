@@ -99,7 +99,7 @@ export default function CreateQuiz() {
           quality={100}
         />
       </div>
-      <h1>Create a Quiz</h1>
+      <h1>Create a Quiz!</h1>
       {error && <p className={styles.error}>{error}</p>}
       <input
         type="text"

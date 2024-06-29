@@ -2,11 +2,16 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
-
+import Image from 'next/image';
+import styles from './styles.module.scss';
+import Modal from '@/model_comp/Modal';
 export default function TakeQuiz() {
   const [quiz, setQuiz] = useState(null);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [score, setScore] = useState(0);
   const params = useParams();
   const id = params.id;
 
@@ -28,17 +33,32 @@ export default function TakeQuiz() {
     }
   }, [id]);
 
-  const handleAnswerChange = (questionIndex, optionIndex) => {
+  const handleAnswerChange = (optionIndex) => {
     const newAnswers = [...answers];
-    newAnswers[questionIndex] = quiz.questions[questionIndex].options[optionIndex];
+    newAnswers[currentQuestionIndex] = quiz.questions[currentQuestionIndex].options[optionIndex];
     setAnswers(newAnswers);
+  };
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < quiz.questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      handleSubmit();
+    }
+  };
+
+  const handlePrevQuestion = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
   };
 
   const handleSubmit = async () => {
     try {
       const response = await axios.post(`/api/quizzes/${id}`, { answers });
       console.log('Quiz submitted successfully:', response.data);
-      alert(`Your score is: ${response.data.score}`);
+      setScore(response.data.score);
+      setShowModal(true);
     } catch (error) {
       console.error('Error submitting quiz:', error);
     }
@@ -52,27 +72,43 @@ export default function TakeQuiz() {
     return <div>Quiz not found.</div>;
   }
 
+  const currentQuestion = quiz.questions[currentQuestionIndex];
+
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>{quiz.title}</h1>
-      {quiz.questions.map((question, questionIndex) => (
-        <div key={questionIndex} style={{ marginBottom: '20px' }}>
-          <h3>{question.question}</h3>
-          {question.options.map((option, optionIndex) => (
-            <div key={optionIndex} style={{ marginBottom: '10px' }}>
+    <div className={styles.quizWrapper}>
+      <Image src="/option_bg5.jpg" alt="Background" layout="fill" className={styles.backgroundImage} />
+      <div className={styles.quizContainer}>
+        <div className={styles.questionProgress}>
+          Question {currentQuestionIndex + 1}/{quiz.questions.length}
+        </div>
+        <h3 className={styles.questionTitle}>{currentQuestion.question}</h3>
+        <div className={styles.optionsContainer}>
+          {currentQuestion.options.map((option, optionIndex) => (
+            <div key={optionIndex} className={styles.optionContainer}>
               <input
                 type="radio"
-                name={`question-${questionIndex}`}
+                name={`question-${currentQuestionIndex}`}
                 value={option}
-                checked={answers[questionIndex] === option}
-                onChange={() => handleAnswerChange(questionIndex, optionIndex)}
+                checked={answers[currentQuestionIndex] === option}
+                onChange={() => handleAnswerChange(optionIndex)}
+                className={styles.radioButton}
               />
-              <label>{option}</label>
+              <label className={styles.optionLabel}>{option}</label>
             </div>
           ))}
         </div>
-      ))}
-      <button onClick={handleSubmit}>Submit Quiz</button>
+        <div className={styles.groups}>
+          {currentQuestionIndex > 0 && (
+            <button className={styles.nextButton} onClick={handlePrevQuestion}>
+              Prev
+            </button>
+          )}
+          <button className={styles.nextButton} onClick={handleNextQuestion}>
+            {currentQuestionIndex < quiz.questions.length - 1 ? 'Next' : 'Submit'}
+          </button>
+        </div>
+      </div>
+      <Modal show={showModal} onClose={() => setShowModal(false)} score={score} />
     </div>
   );
 }
