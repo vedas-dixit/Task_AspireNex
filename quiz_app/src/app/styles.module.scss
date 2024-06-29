@@ -1,0 +1,75 @@
+.container {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+  }
+  
+  .content {
+    position: relative;
+    text-align: center;
+    z-index: 1;
+    transform: translateY(-10%);
+    h1 {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      span {
+        color: #ff6347; /* Optional: Add a color for UIZZLER span */
+      }
+    }
+  
+    button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      color: #000000;
+      font-size: 4rem; 
+      span {
+        font-size: 3.5rem;
+        margin-left: 10px;
+        transition: transform 0.3s ease-in-out;
+      }
+  
+      &:hover span {
+        transform: translateX(15px);
+        color: #ffffff;
+      }
+    }
+  }
+  
+  @media (min-width: 368px) {
+    .content h1 {
+      font-size: 14vw;
+    }
+  
+    .content button {
+      font-size: 2rem;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .content h1 {
+      font-size: 16vw;
+    }
+  
+    .content button {
+      font-size: 2rem;
+    }
+  }
+  
