@@ -108,7 +108,7 @@ export default function TakeQuiz() {
           </button>
         </div>
       </div>
-      <Modal show={showModal} onClose={() => setShowModal(false)} score={score} />
+      <Modal show={showModal} onClose={() => setShowModal(false)} score={score} total={quiz.questions.length} />
     </div>
   );
 }

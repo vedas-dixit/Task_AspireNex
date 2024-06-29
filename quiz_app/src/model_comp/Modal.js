@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.scss';
 
-const Modal = ({ show, onClose, score }) => {
+const Modal = ({ show, onClose, score, total }) => {
   if (!show) {
     return null;
   }
@@ -13,7 +13,7 @@ const Modal = ({ show, onClose, score }) => {
           <source src="/confetti.mp4" type="video/mp4" />
         </video>
         <h2>You have Scored</h2>
-        <h1>{score}/10</h1>
+        <h1>{score}/{total}</h1>
         <button onClick={onClose} className={styles.closeButton}>
           Wanna Play Again?
         </button>
