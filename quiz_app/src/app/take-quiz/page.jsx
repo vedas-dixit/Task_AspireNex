@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import Image from 'next/image';
+import styles from './styles.module.scss';
 
 export default function TakeQuiz() {
   const [quizzes, setQuizzes] = useState([]);
@@ -20,14 +22,38 @@ export default function TakeQuiz() {
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Available Quizzes</h1>
-      {quizzes.map((quiz) => (
-        <div key={quiz._id} style={{ marginBottom: '20px' }}>
-          <h2>{quiz.title}</h2>
-          <button onClick={() => handleQuizSelect(quiz._id)}>Take Quiz</button>
+    <div className={styles.container}>
+      <div className={styles.background}>
+        <Image
+          src="/Home.jpg"
+          alt="Background"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+        />
+      </div>
+      <div className={styles.content}>
+        <h1>Available Quizzes</h1>
+        <div className={styles.quizzes}>
+          {quizzes.map((quiz) => (
+            <div key={quiz._id} className={styles.quizItem}>
+              <h2>{quiz.title}</h2>
+              <button className={styles.button} onClick={() => handleQuizSelect(quiz._id)}>
+                <div className={styles.buttonBackground}>
+                  <Image
+                    src="/option_bg2.png"
+                    alt="Take Quiz Background"
+                    layout="fill"
+                    objectFit="cover"
+                    quality={100}
+                  />
+                </div>
+                Take Quiz
+              </button>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 }

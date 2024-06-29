@@ -1,6 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import styles from './styles.module.scss';
+import Image from 'next/image';
 
 export default function CreateQuiz() {
   const [title, setTitle] = useState('');
@@ -59,6 +61,12 @@ export default function CreateQuiz() {
     return true;
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      setError('')
+    }, 5000);
+  }, [error]);
+
   const handleSubmit = async () => {
     if (validateForm()) {
       if (confirm('Are you sure you want to submit the quiz?')) {
@@ -80,47 +88,61 @@ export default function CreateQuiz() {
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+    <div className={styles.createQuizContainer}>
+      
+      <div className={styles.background}>
+        <Image
+          src="/Home.jpg"
+          alt="Background"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+        />
+      </div>
       <h1>Create a Quiz</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className={styles.error}>{error}</p>}
       <input
         type="text"
         placeholder="Quiz Title"
         value={title}
         onChange={handleTitleChange}
-        style={{ display: 'block', margin: '20px auto', width: '80%' }}
+        className={styles.quizTitle}
       />
-      {questions.map((question, index) => (
-        <div key={index} style={{ marginBottom: '20px' }}>
-          <input
-            type="text"
-            placeholder="Question"
-            value={question.question}
-            onChange={(e) => handleInputChange(index, 'question', e.target.value)}
-            style={{ display: 'block', marginBottom: '10px', width: '80%' }}
-          />
-          {question.options.map((option, optIndex) => (
-            <div key={optIndex} style={{ marginBottom: '5px' }}>
-              <input
-                type="text"
-                placeholder={`Option ${optIndex + 1}`}
-                value={option}
-                onChange={(e) => handleOptionChange(index, optIndex, e.target.value)}
-                style={{ marginRight: '10px' }}
-              />
-              <input
-                type="radio"
-                name={`correctAnswer-${index}`}
-                checked={question.correctAnswer === option}
-                onChange={() => handleCorrectAnswerChange(index, optIndex)}
-              />
-              <label>Correct</label>
-            </div>
-          ))}
-        </div>
-      ))}
-      <button onClick={addQuestion} style={{ display: 'block', margin: '20px auto' }}>Add Question</button>
-      <button onClick={handleSubmit}>Submit Quiz</button>
+      <g className={styles.group}>
+        {questions.map((question, index) => (
+          <div key={index} className={styles.questionContainer}>
+            <input
+              type="text"
+              placeholder="Question"
+              value={question.question}
+              onChange={(e) => handleInputChange(index, 'question', e.target.value)}
+              className={styles.questionInput}
+            />
+            {question.options.map((option, optIndex) => (
+              <div key={optIndex} className={styles.optionContainer}>
+                <input
+                  type="text"
+                  placeholder={`Option ${optIndex + 1}`}
+                  value={option}
+                  onChange={(e) => handleOptionChange(index, optIndex, e.target.value)}
+                  className={styles.optionInput}
+                />
+                <input
+                  type="radio"
+                  name={`correctAnswer-${index}`}
+                  checked={question.correctAnswer === option}
+                  onChange={() => handleCorrectAnswerChange(index, optIndex)}
+                />
+                <label>Correct</label>
+              </div>
+            ))}
+          </div>
+        ))}
+      </g>
+      <g className={styles.todbuttons}>
+      <button onClick={addQuestion} className={styles.addButton}>Add Question</button>
+      <button onClick={handleSubmit} className={styles.submitButton}>Submit Quiz</button>
+      </g>
     </div>
   );
 }
