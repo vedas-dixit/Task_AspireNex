@@ -71,7 +71,7 @@ export default function Home() {
       </div>
       <div className={styles.content}>
         <h1 id="quizzler">Q<span>uizzler</span></h1>
-        <button onClick={handleStart}>Let's start the quiz <span>→</span></button>
+        <button onClick={handleStart}>Let&apos;s start the quiz <span>→</span></button>
       </div>
     </div>
   );
