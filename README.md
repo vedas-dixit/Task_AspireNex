@@ -2,15 +2,6 @@
 
 Welcome to the Quiz Platform! This project enables users to create and take quizzes with multiple-choice questions. Users can input questions, multiple-choice answers, and correct answers to build a quiz. Other users can then take the quiz and receive immediate feedback on their scores. This project was created as part of an assignment for the AspireNex internship application.
 
-## Table of Contents
-
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Usage](#usage)
-- [File Structure](#file-structure)
-- [Acknowledgements](#acknowledgements)
-
 ## Features
 
 - **Create Quizzes**: Users can create quizzes by inputting questions and multiple-choice answers.
