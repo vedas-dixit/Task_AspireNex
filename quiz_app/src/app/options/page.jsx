@@ -26,7 +26,7 @@ export default function Options() {
         />
       </div>
       <div className={styles.content}>
-        <h1>Select an Option</h1>
+        <h1 >Select an Option</h1>
         <g>
         <button className={styles.button} onClick={handleCreateQuiz}>
           <div className={styles.buttonBackground}>

@@ -4,7 +4,8 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Image from 'next/image';
 import styles from './styles.module.scss';
-
+import SplitType from 'split-type';
+import gsap from 'gsap';
 export default function TakeQuiz() {
   const [quizzes, setQuizzes] = useState([]);
   const router = useRouter();
@@ -21,6 +22,45 @@ export default function TakeQuiz() {
     router.push(`/take-quiz/${quizId}`);
   };
 
+
+  // GSAP ANIMATION: 
+  useEffect(() => {
+    const ourText = new SplitType('#text_1', { types: 'chars' })
+    const chars = ourText.chars
+
+    chars.forEach(char => {
+      char.addEventListener('mouseenter', () => {
+        gsap.to(char, {
+
+          color: "yellow",
+          opacity: 1
+        });
+      });
+
+      char.addEventListener('mouseleave', () => {
+        gsap.to(char, { color: "black", opacity: 0.7 });
+      });
+    });
+
+
+    gsap.fromTo(chars, {
+      opacity: 0,
+      y: -250
+    }, {
+      y: 0,
+      opacity: 1,
+      stagger: 0.1,
+      duration: 4,
+      ease: 'power4.out',
+
+    })
+  }, [])
+
+
+
+
+
+
   return (
     <div className={styles.container}>
       <div className={styles.background}>
@@ -33,7 +73,8 @@ export default function TakeQuiz() {
         />
       </div>
       <div className={styles.content}>
-        <h1>Available Quizzes</h1>
+        <h1 id='text_1' className={styles.anim_header}>Available Quizzes</h1>
+
         <div className={styles.quizzes}>
           {quizzes.map((quiz) => (
             <div key={quiz._id} className={styles.quizItem}>
