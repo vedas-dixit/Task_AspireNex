@@ -1,10 +1,21 @@
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './styles.module.scss';
 
 const Modal = ({ show, onClose, score, total }) => {
+  const router = useRouter();
+
   if (!show) {
     return null;
   }
+
+  const handleNextQuiz = () => {
+    router.push('/take-quiz');
+  };
+
+  const handlePlayAgain = () => {
+    window.location.reload();
+  };
 
   return (
     <div className={styles.modalOverlay}>
@@ -14,9 +25,14 @@ const Modal = ({ show, onClose, score, total }) => {
         </video>
         <h2>You have Scored</h2>
         <h1>{score}/{total}</h1>
-        <button onClick={onClose} className={styles.closeButton}>
-          Wanna Play Again?
-        </button>
+        <div className={styles.groupbtn}>
+          <button onClick={handlePlayAgain} className={styles.closeButton}>
+            Wanna Play Again?
+          </button>
+          <button onClick={handleNextQuiz} className={styles.closeButton}>
+            Next Quiz
+          </button>
+        </div>
       </div>
     </div>
   );

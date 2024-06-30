@@ -18,13 +18,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgba(255, 255, 255, 0); /* Slightly transparent to see the video */
+    background-color: rgba(134, 134, 134, 0); /* Slightly transparent to see the video */
     padding: 20px;
     border-radius: 50px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     width: 50vw;
-    height: 50vw;
+    height: 45vw;
   
     h1 {
       font-size: 11vw;
@@ -44,12 +44,17 @@
   }
   
   .closeButton {
-    background-color: rgb(255, 160, 160);
-    color: #ffffff;
+    background-color: rgb(255, 255, 255);
+    color: #000000;
     border: none;
     padding: 10px 20px;
     margin-top: 20px;
     cursor: pointer;
     border-radius: 20px;
+    display: flex;
+    font-size: 2.2vw;
   }
-  
+  .groupbtn{
+    display: flex;
+    gap: 20px;
+  }

@@ -1,10 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import axios from 'axios';
 import Image from 'next/image';
 import styles from './styles.module.scss';
 import Modal from '@/model_comp/Modal';
+import Loader from '@/model_comp/loader/Loader';
 export default function TakeQuiz() {
   const [quiz, setQuiz] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -12,6 +13,7 @@ export default function TakeQuiz() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [score, setScore] = useState(0);
+  const router = useRouter();
   const params = useParams();
   const id = params.id;
 
@@ -64,8 +66,12 @@ export default function TakeQuiz() {
     }
   };
 
+  const handleBack = () => {
+    router.push('/take-quiz');
+  };
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader/>;
   }
 
   if (!quiz) {
@@ -78,8 +84,11 @@ export default function TakeQuiz() {
     <div className={styles.quizWrapper}>
       <Image src="/option_bg5.jpg" alt="Background" layout="fill" className={styles.backgroundImage} />
       <div className={styles.quizContainer}>
-        <div className={styles.questionProgress}>
-          Question {currentQuestionIndex + 1}/{quiz.questions.length}
+        <div className={styles.header}>
+          <button className={styles.backButton} onClick={handleBack}>Back</button>
+          <div className={styles.questionProgress}>
+            Question {currentQuestionIndex + 1}/{quiz.questions.length}
+          </div>
         </div>
         <h3 className={styles.questionTitle}>{currentQuestion.question}</h3>
         <div className={styles.optionsContainer}>
@@ -108,6 +117,7 @@ export default function TakeQuiz() {
           </button>
         </div>
       </div>
+      
       <Modal show={showModal} onClose={() => setShowModal(false)} score={score} total={quiz.questions.length} />
     </div>
   );

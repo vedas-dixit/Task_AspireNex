@@ -6,14 +6,18 @@ import Image from 'next/image';
 import styles from './styles.module.scss';
 import SplitType from 'split-type';
 import gsap from 'gsap';
+import Loader from '../../model_comp/loader/Loader'; // Import the Loader component
+
 export default function TakeQuiz() {
   const [quizzes, setQuizzes] = useState([]);
+  const [loading, setLoading] = useState(true); // Loader state
   const router = useRouter();
 
   useEffect(() => {
     const fetchQuizzes = async () => {
       const response = await axios.get('/api/quizzes');
       setQuizzes(response.data);
+      setLoading(false);
     };
     fetchQuizzes();
   }, []);
@@ -22,8 +26,7 @@ export default function TakeQuiz() {
     router.push(`/take-quiz/${quizId}`);
   };
 
-
-  // GSAP ANIMATION: 
+  // GSAP ANIMATION:
   useEffect(() => {
     const ourText = new SplitType('#text_1', { types: 'chars' })
     const chars = ourText.chars
@@ -31,7 +34,6 @@ export default function TakeQuiz() {
     chars.forEach(char => {
       char.addEventListener('mouseenter', () => {
         gsap.to(char, {
-
           color: "yellow",
           opacity: 1
         });
@@ -42,7 +44,6 @@ export default function TakeQuiz() {
       });
     });
 
-
     gsap.fromTo(chars, {
       opacity: 0,
       y: -250
@@ -52,14 +53,12 @@ export default function TakeQuiz() {
       stagger: 0.1,
       duration: 4,
       ease: 'power4.out',
+    });
+  }, []);
 
-    })
-  }, [])
-
-
-
-
-
+  if (loading) {
+    return <Loader />; // Show the loader while loading
+  }
 
   return (
     <div className={styles.container}>
@@ -74,7 +73,6 @@ export default function TakeQuiz() {
       </div>
       <div className={styles.content}>
         <h1 id='text_1' className={styles.anim_header}>Available Quizzes</h1>
-
         <div className={styles.quizzes}>
           {quizzes.map((quiz) => (
             <div key={quiz._id} className={styles.quizItem}>
