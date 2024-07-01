@@ -82,7 +82,7 @@ export default function TakeQuiz() {
 
   return (
     <div className={styles.quizWrapper}>
-      <Image src="/option_bg5.jpg" alt="Background" layout="fill" className={styles.backgroundImage} />
+      <Image src="/Frame.svg" alt="Background" layout="fill" className={styles.backgroundImage} />
       <div className={styles.quizContainer}>
         <div className={styles.header}>
           <button className={styles.backButton} onClick={handleBack}>Back</button>
